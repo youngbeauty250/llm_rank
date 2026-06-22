@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+data/
+results/
+*.bak
+*.prefail.bak
+*.connfail*.bak
+.DS_Store

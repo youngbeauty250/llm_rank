@@ -1,0 +1,6 @@
+openai>=1.0
+pyyaml
+tqdm
+numpy
+matplotlib
+# pytrec_eval: 评测用，按 README 第4节源码方式安装(勿直接 pip install pytrec_eval)
