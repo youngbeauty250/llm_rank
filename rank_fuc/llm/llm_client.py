@@ -190,6 +190,10 @@ class LLMClient:
         # deepseek-r1/v3、qwen-max、qwen2.5 等不识别，传了会 400，所以只对 qwen3 下发。
         if "qwen3" not in str(self.model).lower():
             return {}
+        # 本地 vLLM 只认 chat_template_kwargs（顶层 enable_thinking 会被 400 拒绝）；
+        # tokenkey/DashScope 需要顶层 enable_thinking。用 LLM_THINK_STYLE=vllm 切到 vLLM 形式。
+        if os.environ.get("LLM_THINK_STYLE", "").strip().lower() == "vllm":
+            return {"chat_template_kwargs": {"enable_thinking": self.enable_thinking}}
         return {
             "enable_thinking": self.enable_thinking,
             "chat_template_kwargs": {"enable_thinking": self.enable_thinking},
