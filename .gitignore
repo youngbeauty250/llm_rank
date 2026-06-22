@@ -6,3 +6,6 @@ results/
 *.prefail.bak
 *.connfail*.bak
 .DS_Store
+
+rank_fuc/index.html
+rank_fuc/test.png
