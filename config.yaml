@@ -1,23 +1,27 @@
 llm:
-  # Prefer setting LLM_API_KEY in the shell for real runs.
-  # You can also put a local key here, but do not commit or share it.
-  api_key: ""           # 填你的 key 或用环境变量 LLM_API_KEY(勿提交真实 key)
-  api_url: "http://localhost:8000/v1"   # 本地 vLLM/OpenAI-兼容端点;或用 LLM_API_URL 覆盖
+  # API key 不写在这里。运行前用环境变量提供：
+  #   export LLM_API_KEY="your-api-key"
+  # 也可临时填在下面（请勿提交到仓库）。环境变量 LLM_API_KEY 优先级高于此处。
+  api_key: ""
+  # OpenAI 兼容接口地址。可用环境变量 LLM_API_URL 覆盖。
+  # 示例：DashScope -> https://dashscope.aliyuncs.com/compatible-mode/v1
+  #       本地 vLLM  -> http://localhost:8000/v1
+  api_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  # 排序用的模型名。可用环境变量 LLM_MODEL 覆盖。
   model: "qwen3-8b"
   temperature: 0.0
   max_tokens: 8192
   max_workers: 8
   max_retry: 5
   timeout: 50.0             # 坏 query 更快超时放弃→重试降级，避免单个慢请求拖死串行方法
-  enable_thinking: false
+  enable_thinking: false    # qwen3 系列排序时关闭思考模式，输出更短更稳
   # 限流(429)专用退避：比普通超时退避更狠，base*2^attempt 封顶 max，单位秒。
   rate_limit_backoff_base: 5.0
   rate_limit_backoff_max: 60.0
   backoff_jitter: 0.5         # 每次退避叠加 [0,jitter) 随机抖动，避免多线程惊群
   requests_per_minute: 0      # 0=禁用主动限流；出现持续 429 时设为账号档位 QPM
   pricing:
-    # Fill these with the provider's current prices for the selected model.
-    # Units are cost per 1K tokens.
+    # 按 provider 当前价格填（每 1K token 成本），仅用于估算，可留 0。
     prompt_per_1k_tokens: 0.0
     completion_per_1k_tokens: 0.0
     currency: "CNY"
